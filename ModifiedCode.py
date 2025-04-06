@@ -27,8 +27,9 @@ def classify(code):
 def remove_comments(code):
 	clean_code = []
 	for line in code:
-		line = line.split("--") [0]
-		line = re.sub(r"/\*.*?\*/", "", line)	# find and sub multi-line comments
+		line = line.split("---") [0]			# to remove commonly used ---[[ structures
+		line = re.sub(r"--\[\[.*\]\]", "", line)	# find and sub multi-line comments
+		line = line.split("--") [0]			# find and remove remaining comments
 
 		# If a line isn't empty, append code
 		if line.strip():
@@ -39,7 +40,7 @@ def remove_comments(code):
 with open("input.txt", "r") as file:
 	code = file.readlines()
 
-clean_code = remove_comments(code)		# removing comments
+clean_code = remove_comments(code)	# removing comments
 classify_code = classify(clean_code)	# identify tokens
 
 print("Lexeme Classification:")
